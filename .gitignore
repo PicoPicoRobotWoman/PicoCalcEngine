@@ -1,6 +1,108 @@
-*.class
-*.tasty
-*.log
+# ==============================
+# Scala / sbt
+# ==============================
+target/
+project/target/
+project/project/
+.bsp/
+.metals/
+.scala-build/
+.bloop/
+.out/
+.cache/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# ==============================
+# Java / JVM
+# ==============================
+*.class
+*.jar
+*.war
+*.ear
 hs_err_pid*
+replay_pid*
+*.hprof
+
+# ==============================
+# IntelliJ IDEA
+# ==============================
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# ==============================
+# Visual Studio Code
+# ==============================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ==============================
+# Eclipse
+# ==============================
+.project
+.classpath
+.settings/
+bin/
+
+# ==============================
+# Logs
+# ==============================
+*.log
+logs/
+log/
+
+# ==============================
+# Operating systems
+# ==============================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================
+# Temporary files / backups
+# ==============================
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*~
+*.orig
+*.rej
+
+# ==============================
+# Environment / secrets
+# ==============================
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# ==============================
+# Local configuration
+# ==============================
+local.properties
+
+# ==============================
+# Coverage / test reports
+# ==============================
+coverage/
+.coverage
+htmlcov/
+test-reports/
+surefire-reports/
+failsafe-reports/
+
+# ==============================
+# Generated documentation
+# ==============================
+site/
+javadoc/
+scaladoc/
