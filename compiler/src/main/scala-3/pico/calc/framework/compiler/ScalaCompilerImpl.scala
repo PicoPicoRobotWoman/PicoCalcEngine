@@ -1,4 +1,4 @@
-package pico.calc.framework.api
+package pico.calc.framework.compiler
 
 import dotty.tools.io.VirtualDirectory
 

@@ -1,4 +1,4 @@
-package pico.calc.framework.constant
+package pico.calc.framework.core
 
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 

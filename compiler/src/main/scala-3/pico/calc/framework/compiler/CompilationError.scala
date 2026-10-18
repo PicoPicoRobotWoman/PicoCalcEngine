@@ -1,4 +1,4 @@
-package pico.calc.framework.api
+package pico.calc.framework.compiler
 
 final class CompilationError(message: String,
                              val diagnostics: Seq[String] = Seq.empty,

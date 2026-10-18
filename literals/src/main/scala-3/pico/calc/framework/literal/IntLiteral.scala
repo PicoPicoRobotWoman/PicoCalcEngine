@@ -1,4 +1,6 @@
-package pico.calc.framework.api
+package pico.calc.framework.literal
+
+import pico.calc.framework.api.{LiteralMeta, LiteralSpec}
 
 @LiteralMeta(name = "Int")
 final class IntLiteral extends LiteralSpec {

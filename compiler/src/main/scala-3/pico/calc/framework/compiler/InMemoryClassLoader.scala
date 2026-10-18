@@ -1,4 +1,4 @@
-package pico.calc.framework.api
+package pico.calc.framework.compiler
 
 final class InMemoryClassLoader(classFileManager: InMemoryClassFileManager,
                                 parent: ClassLoader = Thread.currentThread().getContextClassLoader) extends ClassLoader(parent) {

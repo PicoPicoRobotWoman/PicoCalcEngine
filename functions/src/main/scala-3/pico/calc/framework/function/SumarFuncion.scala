@@ -1,4 +1,4 @@
-package pico.calc.framework.constant
+package pico.calc.framework.function
 
 import pico.calc.framework.api.{FunctionMeta, FunctionSpec}
 

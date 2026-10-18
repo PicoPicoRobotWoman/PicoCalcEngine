@@ -1,11 +1,11 @@
-package pico.calc.framework.api
+package pico.calc.framework.compiler
 
 import dotty.tools.dotc.Driver
 import dotty.tools.io.{VirtualDirectory, VirtualFile}
 
 import java.nio.charset.StandardCharsets
 
-private[api] final class InMemoryScalaDriver extends Driver:
+private[compiler] final class InMemoryScalaDriver extends Driver:
 
   override protected def sourcesRequired: Boolean = false
 

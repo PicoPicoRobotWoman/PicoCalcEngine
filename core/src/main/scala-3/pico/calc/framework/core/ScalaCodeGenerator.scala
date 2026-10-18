@@ -1,5 +1,4 @@
-package pico.calc.framework.constant
-
+package pico.calc.framework.core
 
 object ScalaCodeGenerator:
 

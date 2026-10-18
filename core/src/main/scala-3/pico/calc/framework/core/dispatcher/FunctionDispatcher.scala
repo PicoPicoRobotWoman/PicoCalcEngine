@@ -1,4 +1,4 @@
-package pico.calc.framework.constant.dispatcher
+package pico.calc.framework.core.dispatcher
 
 import pico.calc.framework.api.{FunctionMeta, FunctionSpec}
 

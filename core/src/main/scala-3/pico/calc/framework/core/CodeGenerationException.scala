@@ -1,4 +1,4 @@
-package pico.calc.framework.constant
+package pico.calc.framework.core
 
 sealed abstract class CodeGenerationException(message: String, cause: Throwable = null)
   extends RuntimeException(message, cause)

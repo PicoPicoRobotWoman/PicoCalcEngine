@@ -1,6 +1,6 @@
-package pico.calc.framework.constant
+package pico.calc.framework.core
 
-import pico.calc.framework.api.ScalaCompilerImpl
+import pico.calc.framework.compiler.ScalaCompilerImpl
 
 object ScalaCompiler {
 

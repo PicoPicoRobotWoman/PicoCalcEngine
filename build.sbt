@@ -39,14 +39,14 @@ lazy val constantsModule = project
 
 lazy val coreModule = project
   .in(file("core"))
-  .dependsOn(apiModule, compilerModule, literalsModule, functionsModule, constantsModule)
+  .dependsOn(apiModule, compilerModule)
   .settings(
     name := "core"
   )
 
 lazy val exampleModule = project
   .in(file("example"))
-  .dependsOn(compilerModule)
+  .dependsOn(compilerModule, coreModule, apiModule, literalsModule, functionsModule, constantsModule)
   .settings(
     name := "example"
   )
