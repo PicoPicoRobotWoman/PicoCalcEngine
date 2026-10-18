@@ -5,7 +5,7 @@ import dotty.tools.io.{VirtualDirectory, VirtualFile}
 
 import java.nio.charset.StandardCharsets
 
-private[compiler] final class InMemoryScalaDriver extends Driver {
+private[compiler] object InMemoryScalaDriver extends Driver {
 
   override protected def sourcesRequired: Boolean = false
 
@@ -22,7 +22,7 @@ private[compiler] final class InMemoryScalaDriver extends Driver {
 
     setup(args, initCtx) match
       case None =>
-        throw new CompilationError(
+        throw CompilationError(
           "Could not initialize Scala compiler"
         )
 
@@ -44,7 +44,7 @@ private[compiler] final class InMemoryScalaDriver extends Driver {
           )(using context)
 
         if reporter.hasErrors then
-          throw new CompilationError(
+          throw CompilationError(
             "Scala compilation failed; see compiler diagnostics above"
           )
 

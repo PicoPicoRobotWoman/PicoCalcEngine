@@ -2,8 +2,7 @@ package pico.calc.framework.example
 
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 import pico.calc.framework.constant.{EulerConstant, PiConstant}
-import pico.calc.framework.core.{AstNode, CodeGenHelper, ConstantNode, FunctionNode, LiteralNode, ParamNode, ScalaCodeGenerator, ScalaCompiler}
-import pico.calc.framework.core.dispatcher.{ConstantDispatcher, FunctionDispatcher, LiteralDispatcher}
+import pico.calc.framework.core.{AstNode, ConstantNode, ExpressionCompiler, FunctionNode, LiteralNode, ParamNode}
 import pico.calc.framework.function.SumarFuncion
 import pico.calc.framework.literal.{BooleanLiteral, IntLiteral, TextLiteral}
 
@@ -19,19 +18,12 @@ object Example1 extends App {
     SumarFuncion()
   )
 
-  val constans: Set[ConstantSpec] = Set(
+  val constants: Set[ConstantSpec] = Set(
     EulerConstant(),
     PiConstant()
   )
 
-  val literlDispatcher = LiteralDispatcher(literals)
-  val functionDispatcher = FunctionDispatcher(functions)
-  val constantDispatcher = ConstantDispatcher(constans)
-  val helpers = CodeGenHelper(literlDispatcher, functionDispatcher, constantDispatcher)
-
-  def compile(ast: AstNode): Map[String, Any] => Any =
-    val source = ScalaCodeGenerator(helpers)(ast)
-    ScalaCompiler(source)
+  val compile = ExpressionCompiler(literals, functions, constants)
 
   val ast1 = LiteralNode("Text", "спасибо")
   val ast2 = LiteralNode("Int", "1")

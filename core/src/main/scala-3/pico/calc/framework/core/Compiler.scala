@@ -1,13 +1,12 @@
 package pico.calc.framework.core
 
-import pico.calc.framework.compiler.ScalaCompilerImpl
+import pico.calc.framework.compiler.ScalaCompiler
 
-object ScalaCompiler {
+object Compiler {
 
-  def apply(code: String): (Map[String, Any]) => Any = {
-    val compiler = new ScalaCompilerImpl
+  def apply(code: String): Map[String, Any] => Any = {
 
-    val clazz = compiler.compile(
+    val clazz = ScalaCompiler()(
       source = code,
       className = "pico.calc.framework.generated.Formula"
     )
