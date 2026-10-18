@@ -1,7 +1,9 @@
 package pico.calc.framework.compiler
 
-final class InMemoryClassLoader(classFileManager: InMemoryClassFileManager,
-                                parent: ClassLoader = Thread.currentThread().getContextClassLoader) extends ClassLoader(parent) {
+final class InMemoryClassLoader(
+  classFileManager: InMemoryClassFileManager,
+  parent: ClassLoader = Thread.currentThread().getContextClassLoader
+) extends ClassLoader(parent) {
   override protected def findClass(name: String): Class[?] =
     classFileManager.get(name) match
       case Some(bytecode) =>

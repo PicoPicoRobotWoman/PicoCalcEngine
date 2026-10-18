@@ -3,10 +3,10 @@ package pico.calc.framework.core
 object ScalaCodeGenerator:
 
   def apply(
-             helpers: CodeGenHelper.Helpers
-           ): AstNode => String =
+    helpers: CodeGenHelper.Helpers
+  ): AstNode => String =
 
-    def generateExpression(ast: AstNode): String = {
+    def generateExpression(ast: AstNode): String =
       ast match
         case LiteralNode(name, value) =>
           val specValName = toValName(
@@ -23,9 +23,6 @@ object ScalaCodeGenerator:
           s"$specValName.apply()"
         case ParamNode(name) =>
           f"params(\"${name}\")"
-        case node =>
-          throw new UnsupportedAstNodeException(node)
-    }
 
     ast =>
       val imports =
@@ -59,7 +56,6 @@ object ScalaCodeGenerator:
         }
         .mkString("\n")
 
-
       val body = generateExpression(ast)
 
       s"""package pico.calc.framework.generated
@@ -79,4 +75,3 @@ object ScalaCodeGenerator:
     className.headOption match
       case Some(head) => head.toLower.toString + className.tail
       case None       => className
-

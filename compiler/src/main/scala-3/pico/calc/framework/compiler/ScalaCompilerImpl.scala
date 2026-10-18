@@ -31,9 +31,11 @@ final class ScalaCompilerImpl {
           cause = ex
         )
 
-  private def collectClasses(directory: VirtualDirectory,
-                             manager: InMemoryClassFileManager,
-                             prefix: String = ""): Unit =
+  private def collectClasses(
+    directory: VirtualDirectory,
+    manager: InMemoryClassFileManager,
+    prefix: String = ""
+  ): Unit =
     directory.iterator.foreach:
       case subdirectory: VirtualDirectory =>
         collectClasses(
@@ -43,9 +45,8 @@ final class ScalaCompilerImpl {
         )
 
       case file if file.name.endsWith(".class") =>
-        val className =
-          (prefix + file.name.stripSuffix(".class"))
-            .replace('/', '.')
+        val className = (prefix + file.name.stripSuffix(".class"))
+          .replace('/', '.')
 
         val input = file.input
 

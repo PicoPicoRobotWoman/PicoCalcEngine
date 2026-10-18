@@ -44,6 +44,7 @@ ThisBuild / licenses := Seq(
 lazy val compilerModule = project
   .in(file("compiler"))
   .settings(
+    commonSettings,
     name := "compiler",
     libraryDependencies +=
       "org.scala-lang" %% "scala3-compiler" % scalaVersion.value
@@ -52,6 +53,7 @@ lazy val compilerModule = project
 lazy val apiModule = project
   .in(file("api"))
   .settings(
+    commonSettings,
     name := "api"
   )
 
@@ -59,6 +61,7 @@ lazy val literalsModule = project
   .in(file("literals"))
   .dependsOn(apiModule)
   .settings(
+    commonSettings,
     name := "literals"
   )
 
@@ -66,6 +69,7 @@ lazy val functionsModule = project
   .in(file("functions"))
   .dependsOn(apiModule)
   .settings(
+    commonSettings,
     name := "functions"
   )
 
@@ -73,6 +77,7 @@ lazy val constantsModule = project
   .in(file("constants"))
   .dependsOn(apiModule)
   .settings(
+    commonSettings,
     name := "constants"
   )
 
@@ -80,19 +85,21 @@ lazy val coreModule = project
   .in(file("core"))
   .dependsOn(apiModule, compilerModule)
   .settings(
+    commonSettings,
     name := "core"
   )
 
 lazy val exampleModule = project
   .in(file("example"))
-  .dependsOn(compilerModule, coreModule, apiModule, literalsModule, functionsModule, constantsModule)
+  .dependsOn(compilerModule, apiModule, coreModule, literalsModule, functionsModule, constantsModule)
   .settings(
+    commonSettings,
     name := "example"
   )
 
 lazy val root = project
   .in(file("."))
-  .aggregate(compilerModule, exampleModule, apiModule)
+  .aggregate(compilerModule, apiModule, coreModule, literalsModule, functionsModule, constantsModule)
   .settings(
     name := "pico-calc-engine",
     publish / skip := true

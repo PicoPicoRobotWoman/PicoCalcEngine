@@ -2,22 +2,23 @@ package pico.calc.framework.core
 
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 
-
 object CodeGenHelper:
 
   final case class Helpers(
-                            resolveLiteral: String => LiteralSpec,
-                            resolveFunction: String => FunctionSpec,
-                            resolveConstant: String => ConstantSpec,
-                            getImports: AstNode => Set[Class[?]],
-                            getAllLiteralSpecs: AstNode => Set[LiteralSpec],
-                            getAllFunctionSpecs: AstNode => Set[FunctionSpec],
-                            getAllConstantSpecs: AstNode => Set[ConstantSpec]
-                          )
+    resolveLiteral: String => LiteralSpec,
+    resolveFunction: String => FunctionSpec,
+    resolveConstant: String => ConstantSpec,
+    getImports: AstNode => Set[Class[?]],
+    getAllLiteralSpecs: AstNode => Set[LiteralSpec],
+    getAllFunctionSpecs: AstNode => Set[FunctionSpec],
+    getAllConstantSpecs: AstNode => Set[ConstantSpec]
+  )
 
-  def apply(literalDispatcher: String => Option[LiteralSpec],
-            functionDispatcher: String => Option[FunctionSpec],
-            constantDispatcher: String => Option[ConstantSpec]): Helpers =
+  def apply(
+    literalDispatcher: String => Option[LiteralSpec],
+    functionDispatcher: String => Option[FunctionSpec],
+    constantDispatcher: String => Option[ConstantSpec]
+  ): Helpers =
 
     def resolveLiteral(name: String): LiteralSpec =
       literalDispatcher(name).getOrElse(
@@ -65,7 +66,7 @@ object CodeGenHelper:
 
     def getAllConstantSpecs(ast: AstNode): Set[ConstantSpec] =
       ast match
-        case ConstantNode(name) => Set(resolveConstant(name))
+        case ConstantNode(name)    => Set(resolveConstant(name))
         case FunctionNode(_, args) =>
           args.iterator
             .flatMap(getAllConstantSpecs)
@@ -79,5 +80,5 @@ object CodeGenHelper:
       getImports = getImports,
       getAllLiteralSpecs = getAllLiteralSpecs,
       getAllFunctionSpecs = getAllFunctionSpecs,
-      getAllConstantSpecs = getAllConstantSpecs,
+      getAllConstantSpecs = getAllConstantSpecs
     )

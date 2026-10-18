@@ -10,12 +10,13 @@ private[compiler] final class InMemoryScalaDriver extends Driver {
   override protected def sourcesRequired: Boolean = false
 
   def compile(
-               source: String,
-               classpath: String
-             ): VirtualDirectory =
+    source: String,
+    classpath: String
+  ): VirtualDirectory =
 
     val args = Array(
-      "-classpath", classpath,
+      "-classpath",
+      classpath,
       "-color:never"
     )
 
