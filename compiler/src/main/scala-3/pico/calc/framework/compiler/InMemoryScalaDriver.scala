@@ -5,20 +5,30 @@ import dotty.tools.io.{VirtualDirectory, VirtualFile}
 
 import java.nio.charset.StandardCharsets
 
+/** Scala 3 compiler driver that compiles source code in memory without writing source files or
+  * compilation output to disk.
+  */
 private[compiler] object InMemoryScalaDriver extends Driver {
 
   override protected def sourcesRequired: Boolean = false
 
+  /** Compiles Scala source code in memory.
+    *
+    * @param source
+    *   Scala source code to compile
+    * @param classpath
+    *   classpath required for compilation
+    * @return
+    *   virtual directory containing the compiled output
+    * @throws CompilationError
+    *   if initialization or compilation fails
+    */
   def compile(
     source: String,
     classpath: String
   ): VirtualDirectory =
 
-    val args = Array(
-      "-classpath",
-      classpath,
-      "-color:never"
-    )
+    val args = Array("-classpath", classpath)
 
     setup(args, initCtx) match
       case None =>

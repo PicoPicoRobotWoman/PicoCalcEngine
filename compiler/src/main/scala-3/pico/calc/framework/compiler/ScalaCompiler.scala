@@ -10,9 +10,18 @@ import dotty.tools.io.{AbstractFile, VirtualDirectory}
   */
 object ScalaCompiler {
 
-  def apply(): (source: String, className: String) => Class[?] = compile
-
-  private def compile(source: String, className: String): Class[?] = {
+  /** Compiles Scala source code in memory and loads the resulting class.
+    *
+    * @param source
+    *   Scala source code to compile
+    * @param className
+    *   fully qualified name of the class to load
+    * @return
+    *   the loaded class
+    * @throws CompilationError
+    *   if compilation or class loading fails
+    */
+  def compile(source: String, className: String): Class[?] = {
     require(source.trim.nonEmpty, "Source code must not be empty")
     require(className.trim.nonEmpty, "Class name must not be empty")
 

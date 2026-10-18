@@ -6,7 +6,7 @@ object Compiler {
 
   def apply(code: String): Map[String, Any] => Any = {
 
-    val clazz = ScalaCompiler()(
+    val clazz = ScalaCompiler.compile(
       source = code,
       className = "pico.calc.framework.generated.Formula"
     )

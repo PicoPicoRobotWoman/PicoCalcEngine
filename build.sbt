@@ -4,6 +4,10 @@ ThisBuild / scalaVersion := "3.9.0"
 
 ThisBuild / description := "A Scala-based expression evaluation engine"
 
+ThisBuild / libraryDependencies ++= Seq(
+  "org.scalameta" %% "munit" % "1.1.1" % Test
+)
+
 lazy val commonSettings = Seq(
   // Scala compiler
   scalacOptions ++= Seq(
