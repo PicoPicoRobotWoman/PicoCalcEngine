@@ -31,12 +31,12 @@ object Example2 extends App {
   val compile2 = ExpressionCompiler[(Int, Int) => Any](literals, functions, constants)
   val compile3 = ExpressionCompiler[() => Any](literals, functions, constants)
 
-  val ast1 = FunctionNode("+", List(LiteralNode("Int", "1"), ParamNode("a", 1)))
+  val ast1 = FunctionNode("+", List(LiteralNode("Int", "1"), ParamNode("a")))
   val ast2 = FunctionNode("+", List(ParamNode("a", 1), ParamNode("b", 2)))
   val ast3 = FunctionNode("+", List(LiteralNode("Int", "4"), LiteralNode("Int", "6")))
 
   println(compile1(ast1).apply(1))
-  println(compile2(ast2).apply(2, 2))
+  println(compile2(ast2).apply(2, 4))
   println(compile3(ast3).apply())
 
 }

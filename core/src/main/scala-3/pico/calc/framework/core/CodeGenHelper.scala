@@ -25,9 +25,8 @@ object CodeGenHelper:
       case _ =>
         List.empty
 
-  def getAllOrderParam(ast: AstNode): List[ParamNode] = {
+  def getAllOrderParam(ast: AstNode): List[ParamNode] =
     getAllParamNodes(ast).sortBy(_.ordered)
-  }
 
   def apply(
     literalDispatcher: String => Option[LiteralSpec],
