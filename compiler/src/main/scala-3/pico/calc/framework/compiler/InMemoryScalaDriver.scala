@@ -5,7 +5,7 @@ import dotty.tools.io.{VirtualDirectory, VirtualFile}
 
 import java.nio.charset.StandardCharsets
 
-private[compiler] final class InMemoryScalaDriver extends Driver:
+private[compiler] final class InMemoryScalaDriver extends Driver {
 
   override protected def sourcesRequired: Boolean = false
 
@@ -48,3 +48,4 @@ private[compiler] final class InMemoryScalaDriver extends Driver:
           )
 
         output
+}

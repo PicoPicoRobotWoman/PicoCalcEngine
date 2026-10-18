@@ -1,6 +1,10 @@
-organization := "pico.calc.framework"
-version      := "1.0.0"
-scalaVersion := "3.9.0"
+ThisBuild / organization := "pico.calc.framework"
+ThisBuild / version      := "1.0.0"
+ThisBuild / scalaVersion := "3.9.0"
+
+ThisBuild / licenses := Seq(
+  "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")
+)
 
 lazy val compilerModule = project
   .in(file("compiler"))
@@ -58,5 +62,3 @@ lazy val root = project
     name := "pico-calc-engine",
     publish / skip := true
   )
-
-

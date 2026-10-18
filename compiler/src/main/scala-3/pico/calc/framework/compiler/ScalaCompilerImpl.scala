@@ -2,7 +2,7 @@ package pico.calc.framework.compiler
 
 import dotty.tools.io.VirtualDirectory
 
-final class ScalaCompilerImpl:
+final class ScalaCompilerImpl {
 
   def compile(source: String, className: String): Class[?] =
     require(source.trim.nonEmpty, "Source code must not be empty")
@@ -56,3 +56,5 @@ final class ScalaCompilerImpl:
 
       case _ =>
         ()
+
+}
