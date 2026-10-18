@@ -3,8 +3,7 @@ package pico.calc.framework.core
 import pico.calc.framework.compiler.ScalaCompiler
 
 object Compiler {
-
-  def apply(code: String): Map[String, Any] => Any = {
+    def apply[T](code: String): T = {
 
     val clazz = ScalaCompiler.compile(
       source = code,
@@ -14,7 +13,7 @@ object Compiler {
     clazz
       .getDeclaredConstructor()
       .newInstance()
-      .asInstanceOf[Map[String, Any] => Any]
+      .asInstanceOf[T]
   }
 
 }

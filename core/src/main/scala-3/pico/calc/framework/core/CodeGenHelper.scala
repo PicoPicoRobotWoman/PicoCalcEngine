@@ -14,6 +14,21 @@ object CodeGenHelper:
     getAllConstantSpecs: AstNode => Set[ConstantSpec]
   )
 
+  def getAllParamNodes(ast: AstNode): List[ParamNode] =
+    ast match
+      case FunctionNode(_, args) =>
+        args.iterator
+          .flatMap(getAllParamNodes)
+          .toList
+      case n: ParamNode =>
+        List(n)
+      case _ =>
+        List.empty
+
+  def getAllOrderParam(ast: AstNode): List[ParamNode] = {
+    getAllParamNodes(ast).sortBy(_.ordered)
+  }
+
   def apply(
     literalDispatcher: String => Option[LiteralSpec],
     functionDispatcher: String => Option[FunctionSpec],
@@ -43,7 +58,7 @@ object CodeGenHelper:
             .toSet + resolveFunction(name).getClass
         case ConstantNode(name) =>
           Set(resolveConstant(name).getClass)
-        case ParamNode(_) => Set.empty
+        case ParamNode(_, _) => Set.empty
 
     def getAllLiteralSpecs(ast: AstNode): Set[LiteralSpec] =
       ast match

@@ -1,28 +1,34 @@
 package pico.calc.framework.core
 
+import pico.calc.framework.core.configuracion.Config
+import pico.calc.framework.core.configuracion.FunctionSignature.{MapBased, Positional}
+
 object ScalaCodeGenerator:
 
   def apply(
-    helpers: CodeGenHelper.Helpers
+    helpers: CodeGenHelper.Helpers,
+    config: Config
   ): AstNode => String =
 
     def generateExpression(ast: AstNode): String =
-      ast match
-        case LiteralNode(name, value) =>
+      (ast, config) match
+        case (LiteralNode(name, value), _) =>
           val specValName = toValName(
             helpers.resolveLiteral(name).getClass.getSimpleName
           )
-          s"""$specValName.apply("${value}")"""
-        case FunctionNode(name, args) =>
+          s"""$specValName.apply("$value")"""
+        case (FunctionNode(name, args), _) =>
           val specValName = toValName(helpers.resolveFunction(name).getClass.getSimpleName)
           val generatedArgs =
             args.map(generateExpression).mkString(", ")
           s"$specValName.apply(List[Any]($generatedArgs))"
-        case ConstantNode(name) =>
+        case (ConstantNode(name), _) =>
           val specValName = toValName(helpers.resolveConstant(name).getClass.getSimpleName)
           s"$specValName.apply()"
-        case ParamNode(name) =>
+        case (ParamNode(name, _), Config(MapBased)) =>
           f"params(\"${name}\")"
+        case (ParamNode(name, _), Config(Positional)) =>
+          name
 
     ast =>
       val imports =
@@ -56,18 +62,30 @@ object ScalaCodeGenerator:
         }
         .mkString("\n")
 
+      val signature: String = if (config.signature == Positional) {
+        f"(${CodeGenHelper.getAllParamNodes(ast).indices.map(_ => "Any").mkString(", ")})"
+      } else {
+        "Map[String, Any]"
+      }
+
+      val applyParameters: String = if (config.signature == Positional) {
+        CodeGenHelper.getAllOrderParam(ast).map(p => s"${p.name}: Any").mkString(", ")
+      } else {
+        "params: Map[String, Any]"
+      }
+
       val body = generateExpression(ast)
 
       s"""package pico.calc.framework.generated
 
          |$imports
          |
-         |class Formula extends (Map[String, Any] => Any):
+         |class Formula extends ($signature => Any):
          |  $literalVals
          |  $functionVals
          |  $constantVals
          |
-         |  override def apply(params: Map[String, Any]): Any =
+         |  override def apply($applyParameters): Any =
          |    $body
          |""".stripMargin
 

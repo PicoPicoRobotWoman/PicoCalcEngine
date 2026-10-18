@@ -23,7 +23,7 @@ object Example1 extends App {
     PiConstant()
   )
 
-  val compile = ExpressionCompiler(literals, functions, constants)
+  val compile = ExpressionCompiler[Map[String, Any] => Any](literals, functions, constants)
 
   val ast1 = LiteralNode("Text", "спасибо")
   val ast2 = LiteralNode("Int", "1")

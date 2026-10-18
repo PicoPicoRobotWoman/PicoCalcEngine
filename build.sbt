@@ -1,5 +1,5 @@
 ThisBuild / organization := "pico.calc.framework"
-ThisBuild / version      := "1.0.0"
+ThisBuild / version      := "2.0.0"
 ThisBuild / scalaVersion := "3.9.0"
 
 ThisBuild / description := "A Scala-based expression evaluation engine"
