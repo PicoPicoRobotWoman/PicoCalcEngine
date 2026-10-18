@@ -2,8 +2,43 @@ ThisBuild / organization := "pico.calc.framework"
 ThisBuild / version      := "1.0.0"
 ThisBuild / scalaVersion := "3.9.0"
 
+ThisBuild / description := "A Scala-based expression evaluation engine"
+
+lazy val commonSettings = Seq(
+  // Scala compiler
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-feature",
+    "-unchecked",
+    "-Wunused:all"
+  ),
+
+  // Java compiler
+  javacOptions ++= Seq(
+    "-encoding", "UTF-8",
+    "--release", "21",
+    "-Xlint:all"
+  ),
+
+  // JVM options for forked run / test processes
+  Compile / run / fork := true,
+  Test / fork := true,
+
+  Compile / run / javaOptions ++= Seq(
+    "-Dfile.encoding=UTF-8"
+  ),
+
+  Test / javaOptions ++= Seq(
+    "-Dfile.encoding=UTF-8"
+  )
+)
+
+ThisBuild / homepage := Some(
+  uri("https://github.com/PicoPicoRobotWoman/PicoCalcEngine")
+)
+
 ThisBuild / licenses := Seq(
-  "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")
+  "Apache-2.0" -> uri("https://www.apache.org/licenses/LICENSE-2.0.txt")
 )
 
 lazy val compilerModule = project
