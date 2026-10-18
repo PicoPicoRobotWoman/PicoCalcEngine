@@ -1,8 +1,8 @@
 package pico.calc.framework.literal
 
-import pico.calc.framework.api.{LiteralMeta, LiteralSpec}
+import pico.calc.framework.api.{LiteralSpec, Name}
 
-@LiteralMeta(name = "Int")
+@Name("Int")
 final class IntLiteral extends LiteralSpec {
   override def get(): String => Int = _.toInt
 }

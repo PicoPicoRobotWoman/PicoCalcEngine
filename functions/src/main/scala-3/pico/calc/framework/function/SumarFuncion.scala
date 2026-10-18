@@ -1,8 +1,8 @@
 package pico.calc.framework.function
 
-import pico.calc.framework.api.{FunctionMeta, FunctionSpec}
+import pico.calc.framework.api.{Name, FunctionSpec}
 
-@FunctionMeta(name = "+")
+@Name("+")
 final class SumarFuncion extends FunctionSpec {
   override def get(): List[Any] => Any =
     args =>

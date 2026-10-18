@@ -1,8 +1,8 @@
 package pico.calc.framework.constant
 
-import pico.calc.framework.api.{ConstantMeta, ConstantSpec}
+import pico.calc.framework.api.{ConstantSpec, Name}
 
-@ConstantMeta(name = "PI")
+@Name("PI")
 class PiConstant extends ConstantSpec {
   def get(): () => Any = () => Math.PI
 }

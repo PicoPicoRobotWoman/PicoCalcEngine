@@ -1,8 +1,8 @@
 package pico.calc.framework.literal
 
-import pico.calc.framework.api.{LiteralMeta, LiteralSpec}
+import pico.calc.framework.api.{LiteralSpec, Name}
 
-@LiteralMeta(name = "Long")
+@Name("Long")
 final class LongLiteral extends LiteralSpec {
   override def get(): String => Any = _.toLong
 }
