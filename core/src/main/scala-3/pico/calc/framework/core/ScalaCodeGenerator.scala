@@ -13,9 +13,7 @@ object ScalaCodeGenerator:
     def generateExpression(ast: AstNode): String =
       (ast, config) match
         case (LiteralNode(name, value), _) =>
-          val specValName = toValName(
-            helpers.resolveLiteral(name).getClass.getSimpleName
-          )
+          val specValName = toValName(helpers.resolveLiteral(name).getClass.getSimpleName)
           s"""$specValName.apply("$value")"""
         case (FunctionNode(name, args), _) =>
           val specValName = toValName(helpers.resolveFunction(name).getClass.getSimpleName)
@@ -62,17 +60,13 @@ object ScalaCodeGenerator:
         }
         .mkString("\n")
 
-      val signature: String = if (config.signature == Positional) {
-        f"(${CodeGenHelper.getAllParamNodes(ast).indices.map(_ => "Any").mkString(", ")})"
-      } else {
-        "Map[String, Any]"
-      }
+      val signature: String = config.signature match 
+        case Positional => f"(${CodeGenHelper.getAllParamNodes(ast).indices.map(_ => "Any").mkString(", ")})"
+        case MapBased => "Map[String, Any]"
 
-      val applyParameters: String = if (config.signature == Positional) {
-        CodeGenHelper.getAllOrderParam(ast).map(p => s"${p.name}: Any").mkString(", ")
-      } else {
-        "params: Map[String, Any]"
-      }
+      val applyParameters: String = config.signature match
+        case Positional => CodeGenHelper.getAllOrderParam(ast).map(p => s"${p.name}: Any").mkString(", ")
+        case MapBased => "params: Map[String, Any]"
 
       val body = generateExpression(ast)
 
