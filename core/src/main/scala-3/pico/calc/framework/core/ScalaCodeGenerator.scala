@@ -16,7 +16,7 @@ object ScalaCodeGenerator:
           val specValName = toValName(helpers.resolveLiteral(name).getClass.getSimpleName)
           s"""$specValName.apply("$value")"""
         case (FunctionNode(name, args), _) =>
-          val specValName = toValName(helpers.resolveFunction(name).getClass.getSimpleName)
+          val specValName = toValName(helpers.resolveFunction(name, args.map(arg => helpers.getReturnType(arg))).getClass.getSimpleName)
           val generatedArgs =
             args.map(generateExpression).mkString(", ")
           s"$specValName.apply(List[Any]($generatedArgs))"
@@ -39,7 +39,7 @@ object ScalaCodeGenerator:
           .map { spec =>
             val className = spec.getClass.getSimpleName
             val valName = toValName(className)
-            s"val $valName: String => Any = new $className().get()"
+            s"val $valName: String => ${CodeGenHelper.getContract(spec).returnType()} = new $className().get()"
           }
           .mkString("\n")
 
@@ -48,7 +48,7 @@ object ScalaCodeGenerator:
           .map { spec =>
             val className = spec.getClass.getSimpleName
             val valName = toValName(className)
-            s"val $valName: List[Any] => Any = new $className().get()"
+            s"val $valName: List[Any] => ${CodeGenHelper.getContract(spec).returnType()} = new $className().get()"
           }
           .mkString("\n")
 
@@ -56,7 +56,7 @@ object ScalaCodeGenerator:
         .map { spec =>
           val className = spec.getClass.getSimpleName
           val valName = toValName(className)
-          s"val $valName: () => Any = new $className().get()"
+          s"val $valName: () => ${CodeGenHelper.getContract(spec).returnType()} = new $className().get()"
         }
         .mkString("\n")
 

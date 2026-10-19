@@ -3,7 +3,7 @@ package pico.calc.framework.example
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 import pico.calc.framework.constant.{EulerConstant, PiConstant}
 import pico.calc.framework.core.{AstNode, ConstantNode, ExpressionCompiler, FunctionNode, LiteralNode, ParamNode}
-import pico.calc.framework.function.arifmetic.IntSumFuncion
+import pico.calc.framework.function.arifmetic.{AnySumFunction, IntSumFuncion}
 import pico.calc.framework.literal.{BooleanLiteral, IntLiteral, TextLiteral}
 
 object Example1 extends App {
@@ -15,7 +15,7 @@ object Example1 extends App {
   )
 
   val functions: Set[FunctionSpec[?]] = Set(
-    IntSumFuncion()
+    AnySumFunction()
   )
 
   val constants: Set[ConstantSpec[?]] = Set(

@@ -2,9 +2,7 @@ package pico.calc.framework.core
 
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 import pico.calc.framework.core.configuracion.Config
-import pico.calc.framework.core.dispatcher.{
-  ConstantDispatcher, FunctionDispatcher, LiteralDispatcher
-}
+import pico.calc.framework.core.dispatcher.{ConstantDispatcher, FunctionDispatcher, LiteralDispatcher}
 
 object ExpressionCompiler {
   def apply[T](

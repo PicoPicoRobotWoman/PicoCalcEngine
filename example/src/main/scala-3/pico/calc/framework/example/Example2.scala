@@ -5,12 +5,12 @@ import pico.calc.framework.constant.{EulerConstant, PiConstant}
 import pico.calc.framework.core.configuracion.Config
 import pico.calc.framework.core.configuracion.FunctionSignature.Positional
 import pico.calc.framework.core.{ExpressionCompiler, FunctionNode, LiteralNode, ParamNode}
-import pico.calc.framework.function.arifmetic.IntSumFuncion
+import pico.calc.framework.function.arifmetic.{AnySumFunction, IntSumFuncion}
 import pico.calc.framework.literal.{BooleanLiteral, IntLiteral, TextLiteral}
 
 object Example2 extends App {
 
-  implicit val config: Config = Config(signature = Positional)
+  implicit val config: Config = Config(signature = Positional, showCode = false)
 
   val literals: Set[LiteralSpec[?]] = Set(
     IntLiteral(),
@@ -19,7 +19,7 @@ object Example2 extends App {
   )
 
   val functions: Set[FunctionSpec[?]] = Set(
-    IntSumFuncion()
+    AnySumFunction()
   )
 
   val constants: Set[ConstantSpec[?]] = Set(
@@ -31,7 +31,7 @@ object Example2 extends App {
   val compile2 = ExpressionCompiler[(Int, Int) => Any](literals, functions, constants)
   val compile3 = ExpressionCompiler[() => Any](literals, functions, constants)
 
-  val ast1 = FunctionNode("+", List(LiteralNode("Int", "1"), ParamNode("a")))
+  val ast1 = FunctionNode("+", List(LiteralNode("Int", "1"), ParamNode("a", returnType = "Int")))
   val ast2 = FunctionNode("+", List(ParamNode("a", 1), ParamNode("b", 2)))
   val ast3 = FunctionNode("+", List(LiteralNode("Int", "4"), LiteralNode("Int", "6")))
 

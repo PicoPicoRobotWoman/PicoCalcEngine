@@ -40,7 +40,7 @@ final class TextSumFunction extends FunctionSpec[String] {
 @Name("+")
 @Contract(returnType = "Any", argumentTypes = Array("Any", "Any"))
 @Default
-final class NumericSumFunction extends FunctionSpec[Any] {
+final class AnySumFunction extends FunctionSpec[Any] {
   override def get(): List[Any] => Any = args => {
     val a = args.head
     val b = args(1)

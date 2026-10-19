@@ -16,7 +16,7 @@ package pico.calc.framework.compiler
   */
 final case class CompilationError(
   message: String,
-  val diagnostics: Seq[String] = Seq.empty,
+  diagnostics: Seq[String] = Seq.empty,
   cause: Throwable = null
 ) extends RuntimeException(
       if diagnostics.isEmpty then message
