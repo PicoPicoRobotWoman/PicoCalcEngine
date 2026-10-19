@@ -4,12 +4,12 @@ package pico.calc.framework.api
   *
   * <p>A constant specification provides a supplier that returns the constant value when evaluated.
   */
-trait ConstantSpec {
+trait ConstantSpec[T] {
 
   /** Returns a supplier of the constant value.
     *
     * @return
     *   a function that produces the constant value
     */
-  def get(): () => Any
+  def get(): () => T
 }

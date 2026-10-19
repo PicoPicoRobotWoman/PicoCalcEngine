@@ -5,24 +5,24 @@ import pico.calc.framework.constant.{EulerConstant, PiConstant}
 import pico.calc.framework.core.configuracion.Config
 import pico.calc.framework.core.configuracion.FunctionSignature.Positional
 import pico.calc.framework.core.{ExpressionCompiler, FunctionNode, LiteralNode, ParamNode}
-import pico.calc.framework.function.SumarFuncion
+import pico.calc.framework.function.arifmetic.IntSumFuncion
 import pico.calc.framework.literal.{BooleanLiteral, IntLiteral, TextLiteral}
 
 object Example2 extends App {
 
-  implicit val config: Config = Config(Positional)
+  implicit val config: Config = Config(signature = Positional)
 
-  val literals: Set[LiteralSpec] = Set(
+  val literals: Set[LiteralSpec[?]] = Set(
     IntLiteral(),
     BooleanLiteral(),
     TextLiteral()
   )
 
-  val functions: Set[FunctionSpec] = Set(
-    SumarFuncion()
+  val functions: Set[FunctionSpec[?]] = Set(
+    IntSumFuncion()
   )
 
-  val constants: Set[ConstantSpec] = Set(
+  val constants: Set[ConstantSpec[?]] = Set(
     EulerConstant(),
     PiConstant()
   )

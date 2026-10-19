@@ -8,9 +8,9 @@ import pico.calc.framework.core.dispatcher.{
 
 object ExpressionCompiler {
   def apply[T](
-    literals: Set[LiteralSpec],
-    functions: Set[FunctionSpec],
-    constants: Set[ConstantSpec]
+    literals: Set[LiteralSpec[?]],
+    functions: Set[FunctionSpec[?]],
+    constants: Set[ConstantSpec[?]]
   )(ast: AstNode)(using config: Config = Config()): T = {
     val literalDispatcher = LiteralDispatcher(literals)
     val functionDispatcher = FunctionDispatcher(functions)
@@ -22,7 +22,7 @@ object ExpressionCompiler {
     )
 
     val source = ScalaCodeGenerator(helpers, config)(ast)
-    println(source)
+    if (config.showCode) println(source)
     Compiler[T](source)
   }
 }

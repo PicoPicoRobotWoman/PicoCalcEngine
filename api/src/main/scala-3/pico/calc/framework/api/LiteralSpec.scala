@@ -9,7 +9,7 @@ package pico.calc.framework.api
   * @see
   *   LiteralMeta
   */
-trait LiteralSpec {
+trait LiteralSpec[T] {
 
   /** Returns the literal parsing function.
     *
@@ -19,5 +19,5 @@ trait LiteralSpec {
     * @return
     *   a function that parses a literal string and returns its value
     */
-  def get(): String => Any
+  def get(): String => T
 }

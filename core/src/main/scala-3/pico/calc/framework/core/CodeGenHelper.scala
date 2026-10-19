@@ -1,17 +1,19 @@
 package pico.calc.framework.core
 
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
+import pico.calc.framework.core.configuracion.Config
 
-object CodeGenHelper:
+object CodeGenHelper {
 
   final case class Helpers(
-    resolveLiteral: String => LiteralSpec,
-    resolveFunction: String => FunctionSpec,
-    resolveConstant: String => ConstantSpec,
+    resolveLiteral: String => LiteralSpec[?],
+    resolveFunction: String => FunctionSpec[?],
+    resolveConstant: String => ConstantSpec[?],
     getImports: AstNode => Set[Class[?]],
-    getAllLiteralSpecs: AstNode => Set[LiteralSpec],
-    getAllFunctionSpecs: AstNode => Set[FunctionSpec],
-    getAllConstantSpecs: AstNode => Set[ConstantSpec]
+    getAllLiteralSpecs: AstNode => Set[LiteralSpec[?]],
+    getAllFunctionSpecs: AstNode => Set[FunctionSpec[?]],
+    getAllConstantSpecs: AstNode => Set[ConstantSpec[?]],
+    getReturnType: AstNode => String
   )
 
   def getAllParamNodes(ast: AstNode): List[ParamNode] =
@@ -29,20 +31,29 @@ object CodeGenHelper:
     getAllParamNodes(ast).sortBy(_.ordered)
 
   def apply(
-    literalDispatcher: String => Option[LiteralSpec],
-    functionDispatcher: String => Option[FunctionSpec],
-    constantDispatcher: String => Option[ConstantSpec]
-  ): Helpers =
+    literalDispatcher: String => Option[LiteralSpec[?]],
+    functionDispatcher: String => Option[FunctionSpec[?]],
+    constantDispatcher: String => Option[ConstantSpec[?]]
+  )(using config: Config = Config()): Helpers =
 
-    def resolveLiteral(name: String): LiteralSpec =
+    def getReturnType(ast: AstNode): String =
+      (ast, config) match {
+        case (paramNode: ParamNode, Config(true, _, _, _)) => paramNode.returnType
+        case (ParamNode, Config(false, _, _, _))           => "Any"
+        case (_, _)                                        => "Any"
+      }
+
+    def resolveLiteral(name: String): LiteralSpec[?] =
       literalDispatcher(name).getOrElse(
         throw new NoSuchElementException(s"Unknown literal: $name")
       )
-    def resolveFunction(name: String): FunctionSpec =
+
+    def resolveFunction(name: String): FunctionSpec[?] =
       functionDispatcher(name).getOrElse(
         throw new NoSuchElementException(s"Unknown Function: $name")
       )
-    def resolveConstant(name: String): ConstantSpec =
+
+    def resolveConstant(name: String): ConstantSpec[?] =
       constantDispatcher(name).getOrElse(
         throw new NoSuchElementException(s"Unknown Constant: $name")
       )
@@ -57,9 +68,9 @@ object CodeGenHelper:
             .toSet + resolveFunction(name).getClass
         case ConstantNode(name) =>
           Set(resolveConstant(name).getClass)
-        case ParamNode(_, _) => Set.empty
+        case _: ParamNode => Set.empty
 
-    def getAllLiteralSpecs(ast: AstNode): Set[LiteralSpec] =
+    def getAllLiteralSpecs(ast: AstNode): Set[LiteralSpec[?]] =
       ast match
         case LiteralNode(name, _) =>
           Set(resolveLiteral(name))
@@ -69,16 +80,15 @@ object CodeGenHelper:
             .toSet
         case _ => Set.empty
 
-    def getAllFunctionSpecs(ast: AstNode): Set[FunctionSpec] =
+    def getAllFunctionSpecs(ast: AstNode): Set[FunctionSpec[?]] =
       ast match
         case FunctionNode(name, args) =>
           args.iterator
             .flatMap(getAllFunctionSpecs)
             .toSet + resolveFunction(name)
-        case _ =>
-          Set.empty
+        case _ => Set.empty
 
-    def getAllConstantSpecs(ast: AstNode): Set[ConstantSpec] =
+    def getAllConstantSpecs(ast: AstNode): Set[ConstantSpec[?]] =
       ast match
         case ConstantNode(name)    => Set(resolveConstant(name))
         case FunctionNode(_, args) =>
@@ -94,5 +104,7 @@ object CodeGenHelper:
       getImports = getImports,
       getAllLiteralSpecs = getAllLiteralSpecs,
       getAllFunctionSpecs = getAllFunctionSpecs,
-      getAllConstantSpecs = getAllConstantSpecs
+      getAllConstantSpecs = getAllConstantSpecs,
+      getReturnType = getReturnType
     )
+}

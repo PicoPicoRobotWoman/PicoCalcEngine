@@ -3,22 +3,22 @@ package pico.calc.framework.example
 import pico.calc.framework.api.{ConstantSpec, FunctionSpec, LiteralSpec}
 import pico.calc.framework.constant.{EulerConstant, PiConstant}
 import pico.calc.framework.core.{AstNode, ConstantNode, ExpressionCompiler, FunctionNode, LiteralNode, ParamNode}
-import pico.calc.framework.function.SumarFuncion
+import pico.calc.framework.function.arifmetic.IntSumFuncion
 import pico.calc.framework.literal.{BooleanLiteral, IntLiteral, TextLiteral}
 
 object Example1 extends App {
 
-  val literals: Set[LiteralSpec] = Set(
+  val literals: Set[LiteralSpec[?]] = Set(
     IntLiteral(),
     BooleanLiteral(),
     TextLiteral()
   )
 
-  val functions: Set[FunctionSpec] = Set(
-    SumarFuncion()
+  val functions: Set[FunctionSpec[?]] = Set(
+    IntSumFuncion()
   )
 
-  val constants: Set[ConstantSpec] = Set(
+  val constants: Set[ConstantSpec[?]] = Set(
     EulerConstant(),
     PiConstant()
   )

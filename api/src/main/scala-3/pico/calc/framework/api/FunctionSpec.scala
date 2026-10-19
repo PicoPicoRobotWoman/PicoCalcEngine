@@ -9,7 +9,7 @@ package pico.calc.framework.api
   * @see
   *   FunctionMeta
   */
-trait FunctionSpec {
+trait FunctionSpec[T] {
 
   /** Returns the function implementation.
     *
@@ -19,5 +19,5 @@ trait FunctionSpec {
     * @return
     *   a function that accepts argument values and returns the result
     */
-  def get(): List[Any] => Any
+  def get(): List[Any] => T
 }

@@ -23,9 +23,9 @@ object ScalaCodeGenerator:
         case (ConstantNode(name), _) =>
           val specValName = toValName(helpers.resolveConstant(name).getClass.getSimpleName)
           s"$specValName.apply()"
-        case (ParamNode(name, _), Config(MapBased)) =>
+        case (ParamNode(name, _, _), Config(_, _, MapBased, _)) =>
           f"params(\"${name}\")"
-        case (ParamNode(name, _), Config(Positional)) =>
+        case (ParamNode(name, _, _), Config(_, _, Positional, _)) =>
           name
 
     ast =>
@@ -60,13 +60,22 @@ object ScalaCodeGenerator:
         }
         .mkString("\n")
 
-      val signature: String = config.signature match 
-        case Positional => f"(${CodeGenHelper.getAllParamNodes(ast).indices.map(_ => "Any").mkString(", ")})"
+      val signature: String = config.signature match
+        case Positional =>
+          f"(${CodeGenHelper.getAllParamNodes(ast).map(p => helpers.getReturnType(p)).mkString(", ")})"
         case MapBased => "Map[String, Any]"
 
       val applyParameters: String = config.signature match
-        case Positional => CodeGenHelper.getAllOrderParam(ast).map(p => s"${p.name}: Any").mkString(", ")
+        case Positional =>
+          CodeGenHelper.getAllOrderParam(ast).map(p =>
+            s"${p.name}: ${helpers.getReturnType(p)}"
+          ).mkString(", ")
         case MapBased => "params: Map[String, Any]"
+
+      val lambdaReturnType: String = config.parameterizeReturnType match {
+        case true  => helpers.getReturnType(ast)
+        case false => "Any"
+      }
 
       val body = generateExpression(ast)
 
@@ -74,12 +83,12 @@ object ScalaCodeGenerator:
 
          |$imports
          |
-         |class Formula extends ($signature => Any):
+         |class Formula extends ($signature => $lambdaReturnType):
          |  $literalVals
          |  $functionVals
          |  $constantVals
          |
-         |  override def apply($applyParameters): Any =
+         |  override def apply($applyParameters): $lambdaReturnType =
          |    $body
          |""".stripMargin
 

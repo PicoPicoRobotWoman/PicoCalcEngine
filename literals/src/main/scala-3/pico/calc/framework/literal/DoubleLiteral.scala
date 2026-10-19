@@ -1,8 +1,9 @@
 package pico.calc.framework.literal
 
-import pico.calc.framework.api.{LiteralSpec, Name}
+import pico.calc.framework.api.{LiteralSpec, Name, Contract}
 
 @Name("Double")
-final class DoubleLiteral extends LiteralSpec {
-  override def get(): String => Any = _.toDouble
+@Contract(returnType = "Double")
+final class DoubleLiteral extends LiteralSpec[Double] {
+  override def get(): String => Double = _.toDouble
 }

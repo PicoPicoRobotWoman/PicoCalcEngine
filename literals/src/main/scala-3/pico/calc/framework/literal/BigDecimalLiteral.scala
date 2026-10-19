@@ -1,8 +1,9 @@
 package pico.calc.framework.literal
 
-import pico.calc.framework.api.{LiteralSpec, Name}
+import pico.calc.framework.api.{Imports, LiteralSpec, Name, Contract}
 
 @Name("BigDecimal")
-final class BigDecimalLiteral extends LiteralSpec {
-  override def get(): String => Any = BigDecimal(_)
+@Contract(returnType = "BigDecimal")
+final class BigDecimalLiteral extends LiteralSpec[BigDecimal] {
+  override def get(): String => BigDecimal = BigDecimal(_)
 }

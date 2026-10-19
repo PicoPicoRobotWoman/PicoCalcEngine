@@ -1,8 +1,9 @@
 package pico.calc.framework.literal
 
-import pico.calc.framework.api.{LiteralSpec, Name}
+import pico.calc.framework.api.{LiteralSpec, Name, Contract}
 
 @Name("Boolean")
-final class BooleanLiteral extends LiteralSpec {
-  override def get(): String => Any = _.toBoolean
+@Contract(returnType = "Boolean")
+final class BooleanLiteral extends LiteralSpec[Boolean] {
+  override def get(): String => Boolean = _.toBoolean
 }
